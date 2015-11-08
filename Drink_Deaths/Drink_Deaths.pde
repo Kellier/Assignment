@@ -75,9 +75,10 @@ void setup()
 
 void draw()
 {
-  stroke(255, 0, 0);
+  fill(255, 0, 0);
   textAlign(CENTER, CENTER);
-  text("Drink Driving Deaths", 250, 10)
+  textSize(20);
+  text("Drink Driving Deaths 1961-2007", 250, 30);
 }
 
 float[] deaths = {0, 128, 256, 384, 512, 640}; 
