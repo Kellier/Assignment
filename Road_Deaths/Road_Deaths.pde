@@ -80,7 +80,6 @@ void draw()
   textSize(20);
   text("Road Deaths 1961-2007", 250, 30);
 }
-
 float[] deaths = {0, 128, 256, 384, 512, 640}; 
 int[] years = {1961, 1972, 1983, 1994, 2005, 2007};
 
