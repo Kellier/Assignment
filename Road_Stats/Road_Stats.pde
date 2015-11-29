@@ -12,6 +12,10 @@ float y = 100;
 float y1 = 250;
 float y2 = 400;
 float speed = 1;
+boolean drawtext = true;
+boolean drawtext1 = true;
+boolean drawtext2 = true;
+boolean lastPressed = false;
 
 void draw()
 {
@@ -68,26 +72,51 @@ void draw()
   text("H = Year of Highest Death Rate of 640 people", 250, 30);
   text("A = Average Death rate between 1961 - 2007", 250, 50);
   
-  if(keyPressed)
-  {
-    if(key == 'l')
-    {
+   if(drawtext)
+   {
       fill(0, 255, 255);
       textSize(20);
       text((int)map(minIndex, 0, arrList.size() - 1, 1961, 2007), x, y);
-    }
-    if(key == 'h')
+   }
+   
+   if(drawtext1)
+   {
+     fill(255, 0, 255);
+     textSize(20);
+     text((int)map(maxIndex, 0, arrList.size() - 1, 1961, 2007), x, y1);
+   }
+   
+   if(drawtext2)
+   {
+     fill(255, 255, 0);
+     textSize(20);
+     text(average, x, y2);
+   }
+  
+  if(keyPressed)
+  {
+    if(key == 'l' && ! lastPressed)
     {
-      fill(255, 0, 255);
-      textSize(20);
-      text((int)map(maxIndex, 0, arrList.size() -1, 1961, 2007), x, y1);
+      drawtext =! drawtext;
+      lastPressed = true;
     }
-    if(key == 'a')
+    
+    if(key == 'h' && ! lastPressed)
     {
-      fill(255, 255, 0);
-      textSize(20);
-      text(average, x, y2);
+      drawtext1 =! drawtext1;
+      lastPressed = true;
     }
+    
+    if(key == 'a' && ! lastPressed)
+    {
+      drawtext2 =! drawtext2;
+      lastPressed = true;
+    }
+    
+  }
+  else
+  {
+    lastPressed = false;
   }
 }
 

@@ -1,4 +1,9 @@
 PImage img;
+boolean drawtext = true;
+boolean drawtext1 = true;
+boolean drawtext2 = true;
+boolean lastPressed = false;
+
 void setup()
 {
   size(500, 500);
@@ -68,26 +73,51 @@ void draw()
   text("H = How many people died of Drink driving in 1972", 250, 30);
   text("A = Average Death rate between 1961 - 2007", 250, 50);
   
+  if(drawtext)
+  {
+    fill(0, 255, 255);
+    textSize(20);
+    text(arrList.get(minIndex), x, y);
+  }
+  
+  if(drawtext1)
+  {
+     fill(255, 0, 255);
+     textSize(20);
+     text(arrList.get(maxIndex), x, y1);
+  }
+  
+  if(drawtext2)
+  {
+    fill(255, 255, 0);
+    textSize(20);
+    text(average, x, y2);
+  }
+    
   if(keyPressed)
   {
-    if(key == 'l')
+    if(key == 'l' && ! lastPressed)
     {
-      fill(0, 255, 255);
-      textSize(20);
-      text(arrList.get(minIndex), x, y);
+      drawtext =! drawtext;
+      lastPressed = true;
     }
-    if(key == 'h')
+    
+    if(key == 'h' && ! lastPressed)
     {
-      fill(255, 0, 255);
-      textSize(20);
-      text(arrList.get(maxIndex), x, y1);
+      drawtext1 =! drawtext1;
+      lastPressed = true;
     }
-    if(key == 'a')
+    
+    if(key == 'a' && ! lastPressed)
     {
-      fill(255, 255, 0);
-      textSize(20);
-      text(average, x, y2);
+      drawtext2 =! drawtext2;
+      lastPressed = true;
     }
+    
+  }
+  else
+  {
+    lastPressed = false;
   }
 }
 

@@ -1,18 +1,43 @@
+ArrayList<Float> arrList = new ArrayList<Float>();
+float border = width * 0.1f;
+float minIndex, maxIndex;
+
 void setup()
 {
   size(500, 500);
   background(0);
   
-
-  
-  ArrayList<Float> arrList = new ArrayList<Float>();
   String[] lines = loadStrings("Road.csv");
   for(String s:lines)
   {
     float fVal = parseFloat(s);
-    arrList.add(fVal);
+    Road death = new Road(s);
+    arrList.add(death);
   }
-  
+      
+  drawAxis(deaths, years, 5, 640, border);
+  calminmax();
+  stroke(0, 255, 255);
+      
+      
+  float windowRange = (width - (border * 2.0f));
+  float dataRange = 640;      
+  float lineWidth =  windowRange / (float) (arrList.size() - 1);
+    
+  float scale = windowRange / dataRange;
+  for (int i = 1 ; i < arrList.size() ; i ++)
+  {
+      
+    float x1 = border + ((i - 1) * lineWidth);
+    float x2 = border + (i * lineWidth);
+    float y1 = (height - border) - (arrList.get(i - 1)) * scale;
+    float y2 = (height - border) - (arrList.get(i)) * scale;
+    line(x1, y1, x2, y2);
+   } 
+}
+
+void calminmax()
+{
   float min = arrList.get(0);
   int minIndex = 0;
   
@@ -36,50 +61,8 @@ void setup()
       maxIndex = j;
     }
   }
-  
-  float average = 0;
-  float sum = 0;
-  
-  for(int k = 0; k < arrList.size(); k++)
-  {
-    sum += arrList.get(k);
-  }
-  
-  average = sum;
-    
-  float border = width * 0.1f;
-  drawAxis(deaths, years, 5, 640, border);
-  stroke(0, 255, 255);
-      
-      
-  float windowRange = (width - (border * 2.0f));
-  float dataRange = 640;      
-  float lineWidth =  windowRange / (float) (arrList.size() - 1);
-    
-  float scale = windowRange / dataRange;
-  for (int i = 1 ; i < arrList.size() ; i ++)
-  {
-      
-    float x1 = border + ((i - 1) * lineWidth);
-    float x2 = border + (i * lineWidth);
-    float y1 = (height - border) - (arrList.get(i - 1)) * scale;
-    float y2 = (height - border) - (arrList.get(i)) * scale;
-    line(x1, y1, x2, y2);
-   } 
- 
-  
- println("The year with the Lowest Death rate is: " + (int) map(minIndex, 0, arrList.size() - 1, 1961, 2007) + " with the number of Deaths being: " + arrList.get(minIndex));
- println("The year with the Highest Death rate is: " + (int) map(maxIndex, 0, arrList.size() - 1, 1961, 2007) + " with the number of Deaths being: " + arrList.get(maxIndex));
- println("The Average death rate is: ", average);
 }
 
-void draw()
-{
-  fill(0, 255, 255);
-  textAlign(CENTER, CENTER);
-  textSize(20);
-  text("Road Deaths 1961-2007", 250, 30);
-}
 float[] deaths = {0, 128, 256, 384, 512, 640}; 
 int[] years = {1961, 1972, 1983, 1994, 2005, 2007};
 
@@ -124,7 +107,28 @@ void drawAxis(float[] data, int[] horizLabels, int verticalIntervals, float vert
     textAlign(RIGHT, CENTER);  
     text((int)hAxisLabel, border - (tickSize * 2.0f), y);
   }
-  
-  
-  
+}
+
+void drawYear()
+{
+  if (mouseX >= border && mouseX <= width - border)
+  {
+    stroke(0, 255, 355);
+    fill(255, 0, 0);
+    line(mouseX, border, mouseX, height - border);
+    int i = (int) map(mouseX, border, width - border, 0, arrList.size() - 1);
+    float y = map(arrList.get(i).deaths, minIndex, maxIndex, height - border, border);
+    ellipse(mouseX, y, 5, 5);
+    fill(255);
+    text("Year: " + arrList.get(i).deaths, mouseX + 10, y);
+  }
+}
+
+
+void draw()
+{
+  fill(0, 255, 255);
+  textAlign(CENTER, CENTER);
+  textSize(20);
+  text("Road Deaths 1961-2007", 250, 30);
 }
