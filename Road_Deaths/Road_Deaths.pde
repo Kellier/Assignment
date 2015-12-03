@@ -1,5 +1,5 @@
 ArrayList<Float> arrList = new ArrayList<Float>();
-float border = width * 0.1f;
+float border;
 float minIndex, maxIndex;
 
 void setup()
@@ -11,29 +11,46 @@ void setup()
   for(String s:lines)
   {
     float fVal = parseFloat(s);
-    Road death = new Road(s);
-    arrList.add(death);
-  }
+    arrList.add(fVal);
+  }     
+
+  border = width * 0.1f;
+  calminmax();
       
   drawAxis(deaths, years, 5, 640, border);
-  calminmax();
-  stroke(0, 255, 255);
-      
-      
+  
+    
   float windowRange = (width - (border * 2.0f));
   float dataRange = 640;      
-  float lineWidth =  windowRange / (float) (arrList.size() - 1);
     
   float scale = windowRange / dataRange;
+  float lineWidth =  windowRange / (float) (arrList.size() - 1);
   for (int i = 1 ; i < arrList.size() ; i ++)
   {
-      
+    stroke(255, 0, 0);
     float x1 = border + ((i - 1) * lineWidth);
     float x2 = border + (i * lineWidth);
     float y1 = (height - border) - (arrList.get(i - 1)) * scale;
     float y2 = (height - border) - (arrList.get(i)) * scale;
-    line(x1, y1, x2, y2);
+    line(x1, y1, x2, y2);    
    } 
+   
+   drawLine();
+}
+
+void drawLine()
+{
+  if (mouseX >= border && mouseX <= width - border)
+  {
+    stroke(255, 0, 0);
+    fill(255, 0, 0);
+    line(mouseX, border, mouseX, height - border);
+    int i = (int) map(mouseX, border, width - border, 0, arrList.size() - 1);
+    float y = map(arrList.get(i), minIndex, maxIndex, height - border, border);
+    ellipse(mouseX, y, 5, 5);
+    fill(255);
+    text("Deaths: " + arrList.get(i), mouseX + 10, y);
+  }
 }
 
 void calminmax()
@@ -62,6 +79,9 @@ void calminmax()
     }
   }
 }
+
+
+
 
 float[] deaths = {0, 128, 256, 384, 512, 640}; 
 int[] years = {1961, 1972, 1983, 1994, 2005, 2007};
@@ -109,21 +129,6 @@ void drawAxis(float[] data, int[] horizLabels, int verticalIntervals, float vert
   }
 }
 
-void drawYear()
-{
-  if (mouseX >= border && mouseX <= width - border)
-  {
-    stroke(0, 255, 355);
-    fill(255, 0, 0);
-    line(mouseX, border, mouseX, height - border);
-    int i = (int) map(mouseX, border, width - border, 0, arrList.size() - 1);
-    float y = map(arrList.get(i).deaths, minIndex, maxIndex, height - border, border);
-    ellipse(mouseX, y, 5, 5);
-    fill(255);
-    text("Year: " + arrList.get(i).deaths, mouseX + 10, y);
-  }
-}
-
 
 void draw()
 {
@@ -131,4 +136,6 @@ void draw()
   textAlign(CENTER, CENTER);
   textSize(20);
   text("Road Deaths 1961-2007", 250, 30);
+  
+  
 }
