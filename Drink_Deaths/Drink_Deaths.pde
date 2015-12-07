@@ -54,14 +54,14 @@ void setup()
   float dataRange = 640;      
     
   float scale = windowRange / dataRange;
-  float barWidth = width / (float) arrList.size();
+  float barWidth = (width - border * 2) / (float) (arrList.size());
   for (int i = 0 ; i < arrList.size() ; i ++)
   {
     float x = (i * barWidth) + border;
     float y = arrList.get(i) * scale;
     stroke(random(0, 255), random(0, 255), random(0, 255));
     fill(random(0, 255), random(0, 255), random(0, 255));
-    rect(x, height - border, barWidth + 1 , -(arrList.get(i)) * scale);
+    rect(x, height - border, barWidth, -(arrList.get(i)) * scale);
   }
      
  
