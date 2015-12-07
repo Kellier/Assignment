@@ -11,6 +11,14 @@ In my progression through this assignment i implemented the use of classes and c
 
 This shows the use of a bar chart used to display the data of deaths caused by drink driving between 1961 and 2007. It also displays the min and max values.
 
+![road](https://cloud.githubusercontent.com/assets/15383888/11634824/bf62059a-9d0a-11e5-8a91-e77f84b2e5e1.jpg)
 
+This shows the use of a line graph to illustrate general road deaths between 1961 and 2007. It also displays the min and max values but allows the user to see each years deaths by interacting with the screen.
+
+![correlation](https://cloud.githubusercontent.com/assets/15383888/11634825/c1e98c66-9d0a-11e5-9f06-f0bea0bf8aa2.jpg)
+
+This shows the correlation between both graphs and again allows the user to interact by seeing each years deaths.
+
+Although it is a haunting data set i hope if it is viewed it will show the seriousness of drink driving as there are too many deaths caused by poor driving and substance abuse!
 
 
