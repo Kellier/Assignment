@@ -49,23 +49,24 @@ void setup()
     
   float border = width * 0.1f;
   drawAxis(deaths, years, 5, 640, border);
+  stroke(255, 0, 0);
+  fill(255, 0, 0);
+      
       
   float windowRange = (width - (border * 2.0f));
   float dataRange = 640;      
+  float lineWidth =  windowRange / (float) (arrList.size() - 1);
     
   float scale = windowRange / dataRange;
-  float barWidth = width / (float) arrList.size();
+  float barWidth = width / (float) years.length;
   for (int i = 0 ; i < arrList.size() ; i ++)
   {
-    float x = (i * barWidth) + border;
-    float y = arrList.get(i) * scale;
-    stroke(random(0, 255), random(0, 255), random(0, 255));
-    fill(random(0, 255), random(0, 255), random(0, 255));
-    rect(x, height - border, barWidth + 1 , -(arrList.get(i)) * scale);
+    float x = i * barWidth;
+    rect(x, height, barWidth, (arrList.get(i - 1)) * scale);
   }
      
  
- println("The year with the Lowest Death rate due to drink driving is: " + (int) map(minIndex, 0, arrList.size() - 1, 1961, 2007) + " with the number of Deaths being: " + arrList.get(minIndex));
+  
  println("The year with the Highest Death rate due to drink driving is: " + (int) map(maxIndex, 0, arrList.size() - 1, 1961, 2007) + " with the number of Deaths being: " + arrList.get(maxIndex));
  println("The Average death rate due to drink driving is: ", average);
 }

@@ -1,81 +1,58 @@
-ArrayList<Float> arrList = new ArrayList<Float>();
+ArrayList<Road> arrList = new ArrayList<Road>();
 float border;
-float minIndex, maxIndex;
+float min, max;
+
+void loadData()
+{
+  String[] lines = loadStrings("Road3.csv");
+  for(String s:lines)
+  {
+    Road d = new Road(s);
+    arrList.add(d);
+  } 
+}
 
 void setup()
 {
   size(500, 500);
-  background(0);
-  
-  String[] lines = loadStrings("Road.csv");
-  for(String s:lines)
-  {
-    float fVal = parseFloat(s);
-    arrList.add(fVal);
-  }     
-
+  loadData();
   border = width * 0.1f;
   calminmax();
-      
-  drawAxis(deaths, years, 5, 640, border);
-  
-    
-  float windowRange = (width - (border * 2.0f));
-  float dataRange = 640;      
-    
-  float scale = windowRange / dataRange;
-  float lineWidth =  windowRange / (float) (arrList.size() - 1);
-  for (int i = 1 ; i < arrList.size() ; i ++)
-  {
-    stroke(255, 0, 0);
-    float x1 = border + ((i - 1) * lineWidth);
-    float x2 = border + (i * lineWidth);
-    float y1 = (height - border) - (arrList.get(i - 1)) * scale;
-    float y2 = (height - border) - (arrList.get(i)) * scale;
-    line(x1, y1, x2, y2);    
-   } 
-   
-   drawLine();
 }
 
 void drawLine()
 {
+  float windowRange = (width - (border * 2.0f));
+  float dataRange = 640;      
+    
+  float scale = windowRange / dataRange;
   if (mouseX >= border && mouseX <= width - border)
   {
     stroke(255, 0, 0);
     fill(255, 0, 0);
     line(mouseX, border, mouseX, height - border);
-    int i = (int) map(mouseX, border, width - border, 0, arrList.size() - 1);
-    float y = map(arrList.get(i), minIndex, maxIndex, height - border, border);
-    ellipse(mouseX, y, 5, 5);
+    int i = (int)map(mouseX, border, width - border, 0, arrList.size() - 1);
+    float y = (height - border) - (arrList.get(i).deaths) * scale;
+    fill(random(0 ,255), random(0, 255), random(0, 255));
+    stroke(random(0 ,255), random(0, 255), random(0, 255));
+    ellipse(mouseX, y, 10, 10);
     fill(255);
-    text("Deaths: " + arrList.get(i), mouseX + 10, y);
+    text("Deaths: " + arrList.get(i).deaths, mouseX + 10, y + 10);
   }
 }
 
 void calminmax()
 {
-  float min = arrList.get(0);
-  int minIndex = 0;
-  
-  for(int i =0; i < arrList.size(); i++)
+  min = max = arrList.get(0).deaths;
+  for(Road d:arrList)
   {
-    if(arrList.get(i) < min)
+    if(d.deaths < min)
     {
-      min = arrList.get(i);
-      minIndex = i;
+      min = d.deaths;
     }
-  }
-  
-  float high = arrList.get(0);
-  int maxIndex = 0;
-  
-  for(int j = 0; j < arrList.size(); j++)
-  {
-    if(arrList.get(j) > high)
+    if(d.deaths > max)
     {
-      high = arrList.get(j);
-      maxIndex = j;
+      max = d.deaths;
     }
   }
 }
@@ -132,10 +109,30 @@ void drawAxis(float[] data, int[] horizLabels, int verticalIntervals, float vert
 
 void draw()
 {
+  background(0);
   fill(0, 255, 255);
   textAlign(CENTER, CENTER);
   textSize(20);
   text("Road Deaths 1961-2007", 250, 30);
+  text("Lowest Deaths: " + arrList.get(min).deaths, 300, 200);
+  text("Highest Deaths: " + arrList.get(max).deaths, 300, 250);
   
+  drawAxis(deaths, years, 5, 640, border);
   
+  float windowRange = (width - (border * 2.0f));
+  float dataRange = 640;      
+    
+  float scale = windowRange / dataRange;
+  float lineWidth =  windowRange / (float) (arrList.size() - 1);
+  for (int i = 1 ; i < arrList.size() ; i ++)
+  {
+    stroke(255, 0, 0);
+    float x1 = border + ((i - 1) * lineWidth);
+    float x2 = border + (i * lineWidth);
+    float y1 = (height - border) - (arrList.get(i - 1).deaths) * scale;
+    float y2 = (height - border) - (arrList.get(i).deaths) * scale;
+    line(x1, y1, x2, y2);    
+   } 
+  
+  drawLine();
 }
